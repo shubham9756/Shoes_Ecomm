@@ -40,6 +40,8 @@
         }
         .form-control:focus {
             border-color: #d9230f;
+            font-weight: bold;
+            color: black;
             box-shadow: 0 0 0 0.25rem rgba(217, 35, 15, 0.25);
         }
         .btn-login {
@@ -77,10 +79,10 @@
                     </div>
                     <form action="/admin_login/login" method="post">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
+                            <label for="email" class="form-label">Enter Mobile Number</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input type="email" class="form-control" id="email" placeholder="name@example.com" required name="username">
+                                <input type="number" class="form-control" id="email" placeholder="1234567890" required name="username">
                             </div>
                         </div>
                         

@@ -11,7 +11,14 @@ function checkLogin(req,res,next){
 } 
 router.use(checkLogin);
 
-
+router.get('/profile',async function(req,res){
+    var result =await exe( `SELECT * FROM admin`)
+    res.render('admin/profile.ejs',{result})
+})
+router.get('/logout',function(req,res){
+    req.session.admin = undefined;
+    res.redirect('/admin/login')
+})
 // Admin Dashbord Page
 router.get('/',function(req,res){
     res.render('admin/home.ejs')
