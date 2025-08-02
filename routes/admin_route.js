@@ -3,7 +3,6 @@ var exe = require('./../connection')
 var router =express.Router()
 
 function checkLogin(req,res,next){
-    req.session.admin  = 23
     if(req.session.admin){
         next()
     }else{  
