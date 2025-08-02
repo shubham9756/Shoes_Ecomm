@@ -1,0 +1,66 @@
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" ></script>
+  <script>
+    ClassicEditor
+      .create(document.querySelector('#editor'))
+      .catch(error => {
+        console.error(error);
+      });
+  </script>
+    <script type="text/javascript">
+        // Toggle sidebar on mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Dropdown functionality
+        document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const parentLi = this.parentElement;
+                const dropdownMenu = parentLi.querySelector('.dropdown-menu');
+                
+                // Close all other dropdowns first
+                document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+                    if (menu !== dropdownMenu) {
+                        menu.style.display = 'none';
+                        menu.parentElement.querySelector('.dropdown-toggle').classList.remove('active');
+                    }
+                });
+
+                // Toggle current dropdown
+                if (dropdownMenu.style.display === 'block') {
+                    dropdownMenu.style.display = 'none';
+                    this.classList.remove('active');
+                } else {
+                    dropdownMenu.style.display = 'block';
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Close sidebar when clicking on menu items (including dropdown items) on mobile
+        document.querySelectorAll('.sidebar-menu a').forEach(function(menuItem) {
+            menuItem.addEventListener('click', function(e) {
+                // Only close sidebar if it's mobile view (sidebar is active)
+                if (window.innerWidth <= 992 && document.querySelector('.sidebar').classList.contains('active')) {
+                    // Don't close if it's a dropdown toggle
+                    if (!this.classList.contains('dropdown-toggle')) {
+                        document.querySelector('.sidebar').classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {a
+            if (!e.target.closest('.dropdown-toggle') && !e.target.closest('.dropdown-menu')) {
+                document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+                    menu.style.display = 'none';
+                    menu.parentElement.querySelector('.dropdown-toggle').classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

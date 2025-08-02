@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Restaurant - Login</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #232324;
+            background-image: url('https://t4.ftcdn.net/jpg/05/66/51/99/360_F_566519902_gClUjZTTIx1FZYMIPWGsudiJJGrOtmGt.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: rgba(26, 25, 25, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top:100px;
+            
+        }
+        .login-header {
+            text-align: center;
+            margin-top: -30px;
+        }
+        .login-header img {
+            width: 300px;
+            height: 200px;
+
+        }
+        .login-header h2 {
+            color: #d9230f;
+            font-weight: 700;
+        }
+        .form-control:focus {
+            border-color: #d9230f;
+            box-shadow: 0 0 0 0.25rem rgba(217, 35, 15, 0.25);
+        }
+        .btn-login {
+            background-color: #d9230f;
+            border: none;
+            margin-top: 10px;
+            padding: 10px;
+            font-weight: 600;
+        }
+        .btn-login:hover {
+            background-color: #b51d0d;
+        }
+        .forgot-password {
+            color: #6c757d;
+            text-decoration: none;
+        }
+        .forgot-password:hover {
+            color: #d9230f;
+            text-decoration: underline;
+        }
+        .form-label{
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-container">
+                    <div class="login-header">
+                        <img src="https://www.adobe.com/uk/creativecloud/design/discover/media_1c66507b68db7c7927c0f978345701fe0b2200583.png?width=750&format=png&optimize=medium" alt="SK Restaurant Logo" class="img-fluid">
+                        <h2>Shoes Shop</h2>
+                    </div>
+                    <form action="/admin_login/login" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" placeholder="name@example.com" required name="username">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" placeholder="Enter your password" required name="password">
+                            </div>
+                        </div>
+                        
+                       
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-login btn-primary text-white">Sign In</button>
+                        </div>
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

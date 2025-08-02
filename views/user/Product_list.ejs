@@ -1,0 +1,42 @@
+<%-include('navbar.ejs')%>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Featured Products </h2>
+        </div>
+        <div class="products-grid">
+            <%for(var i=0;i<mens.length;i++){%>
+                <div class="product-card">
+                    <span class="product-badge">New</span>
+                    <div class="product-img-container">
+                        <img src="/product/<%-mens[i].product_main_image%>" alt="Premium Sneakers" class="product-img">
+                        <div class="product-actions">
+                            <button class="action-btn"><i class="far fa-heart"></i></button>
+                            <button class="action-btn"><i class="fas fa-search"></i></button>
+                            <button class="action-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title"><%-mens[i].product_name%></h3>
+                        <div class="product-price">
+                            <span class="current-price"><%-mens[i].product_price%></span>
+                            <span class="old-price"><%-mens[i].product_market_price%></span>
+                            <span class="men"><%-mens[i].apply_discount_percent%>%</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(<%-mens[i].product_rating%>)</span>
+                        </div>
+                        <a href="/add_to_cart/<%-mens[i].product_id%>">
+                        </a>
+                        <a href="/details/<%-mens[i].product_id%>" class="text-right"><button class="btn btn-outline-primary btn-lg ">View</button></a>
+                    </div>
+                </div>
+            <%}%>
+        </div>
+    </section>
+    <%-include('Footer.ejs')%>

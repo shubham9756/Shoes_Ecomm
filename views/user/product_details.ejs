@@ -1,0 +1,293 @@
+<%- include('navbar.ejs') %>
+  <br>
+  <br>
+
+  <style>
+    body {
+      background-color: var(--light);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .product-section {
+      padding: 40px 20px;
+    }
+
+    .product-image {
+      border-radius: var(--radius);
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      max-height: 450px;
+      object-fit: contain;
+      transition: 0.3s ease-in-out;
+    }
+
+    .product-image:hover img {
+      transform: scale(1.03);
+    }
+
+    .product-info {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .price {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: var(--danger);
+    }
+
+    .market-price {
+      text-decoration: line-through;
+      color: #888;
+      margin-left: 10px;
+    }
+
+    .discount {
+      background-color: var(--danger);
+      color: white;
+      padding: 2px 6px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    .description {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .form-select,
+    .form-control {
+      max-width: 160px;
+    }
+
+    .qty-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-box button {
+      font-size: 18px;
+      width: 32px;
+      height: 32px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .qty-box input {
+      width: 60px;
+      text-align: center;
+    }
+
+    .stars {
+      color: var(--star);
+    }
+
+    .product-meta {
+      margin-top: 20px;
+    }
+
+    .btn-buy,
+    .btn-cart {
+      min-width: 140px;
+      font-weight: 600;
+    }
+
+    .btn-buy {
+      background-color: rgb(233, 139, 16);
+      color: white;
+    }
+
+    .btn-cart {
+      background-color: red;
+      color: white;
+    }
+
+    .btn-cart :hover {
+      background-color: black;
+    }
+
+    .form-control {
+      width: 100% !important;
+    }
+    .form-control input{
+      width:600px !important;
+      height: 70px !important;
+    }
+
+    @media (max-width: 768px) {
+      .product-image img {
+        max-height: 300px;
+      }
+
+      .product-title {
+        font-size: 1.5rem;
+      }
+
+      .btn-buy,
+      .btn-cart {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <div class="container product-section">
+    <div class="row g-4">
+      <!-- Product Image -->
+      <div class="col-md-6">
+        <div class="product-image">
+          <img src="/product/<%- result[0].product_main_image %>" alt="Product">
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="col-md-6">
+        <div class="product-info">
+          <h2 class="product-title"><%- result[0].product_name %></h2>
+
+          <!-- Price Section -->
+          <div class="my-3">
+            <span class="price">&#8377;<%- result[0].product_price %></span>
+            <% if (result[0].product_market_price && result[0].product_market_price !==result[0].product_price) { %>
+              <span class="market-price">&#8377;<%- result[0].product_market_price %></span>
+              <span class="discount">
+                <% let discount=((result[0].product_market_price - result[0].product_price) /
+                  result[0].product_market_price * 100).toFixed(0); %>
+                  Save <%= discount %>%
+              </span>
+              <% } %>
+          </div>
+
+          <!-- Description -->
+          <p class="description"><b><%- result[0].product_description %></b></p>
+
+          <!-- Size Dropdown -->
+          <div class="mb-3">
+            <label for="size" class="form-label"><b>Size:</b></label>
+            <select id="size" class="form-select" >
+              <% if (result[0].product_for==='Kids' ) { %>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <% } else if (result[0].product_for==='Female' ) { %>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <% } else { %>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <% } %>
+            </select>
+          </div>
+
+          <!-- Quantity Control -->
+          <div class="mb-3">
+            <label class="form-label"><b>Quantity:</b></label>
+            <div class="qty-box">
+              <button class="btn btn-primary btn-lg" onclick="decrease()">-</button>
+              <input type="text" id="qty" value="1" readonly class="form-control"
+                style="border: 2px solid black; padding: 2px; font-size: 18px; font-weight: bold;" id="qty">
+              <button class="btn btn-primary btn-lg" onclick="increase()">+</button>
+            </div>
+          </div>
+
+          <!-- Meta Info -->
+          <div class="product-meta">
+            <p><strong>Rating:</strong>
+              <span class="stars">
+                <% const rating=Math.round(result[0].product_rating); %>
+                  <% for (let i=1; i <=5; i++) { %>
+                    <%= i <=rating ? '★' : '☆' %>
+                      <% } %>
+              </span><b>(<%- result[0].product_rating %>/5)</b>
+            </p>
+
+            <p><strong>Gender:</strong> <b><%- result[0].product_for %></b></p>
+            <p><strong>Color:</strong> <b><%- result[0].product_color %></b></p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-4 d-flex gap-3 flex-wrap">
+              <button class="btn btn-danger" onclick="redirect_add_cart()">Add to Cart</button>
+            <!-- </a> -->
+            <% if (is_login) { %>
+              <button class="btn btn-success" onclick="redirect_buy_now()">Buy Now</button>
+              <% } else { %>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">Buy Now</button>
+                <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Modal -->
+ 
+
+  <!-- Add modals (emailModal, otpModal) here as needed -->
+
+  <script>
+   
+    function increase() {
+      var qty = document.getElementById("qty").value;
+      document.getElementById('qty').value = Number(qty) + 1;
+    }
+
+    function decrease() {
+      const qty = document.getElementById("qty").value;
+      if (qty > 1) {
+        document.getElementById('qty').value = qty - 1
+      }
+    }
+
+    // function sizeOf() {
+    //   const size = document.getElementById("size").value;
+    //   document.getElementById("product_size").value = size;
+    // }
+
+    function redirect_buy_now(){
+      var qty = document.getElementById('qty').value;
+      var size = document.getElementById('size').value;
+
+      var url = `/buy_now/<%-result[0].product_id%>?qty=${qty}&size=${size}`
+      location.href = url
+      console.log(url)
+
+    }
+
+    function redirect_add_cart(){
+      var qty = document.getElementById('qty').value;
+      var size = document.getElementById('size').value;
+      var url = `/add_to_cart/<%-result[0].product_id%>?qty=${qty}&size=${size}`
+      location.href = url
+      console.log(url)
+    }
+  </script>
+
+
+  <br>
+  <br>
+  <br>
+  <%-include('footer.ejs')%>

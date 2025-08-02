@@ -1,0 +1,182 @@
+<%-include('navbar.ejs')%>
+
+    <!-- Hero Carousel Section -->
+    <div id="shoeCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#shoeCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#shoeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#shoeCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <!-- Slides -->
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <% for(var i=0;i<result.length;i++){%>
+                <div class="carousel-item <%- i == 0 ? 'active' : ''%>">
+                    <img src="/slider/<%-result[i].slider_image%>" alt="Luxury Shoes" width="100%">
+                    <div class="carousel-caption d-none d-md-block text-start"
+                        style="background: rgba(0,0,0,0.6); padding: 1rem; border-radius: 10px; max-width: 500px; max-height: 300px;">
+                        <h1 class="display-4"><%-result[i].slider_title%></h1>
+                        <p class="lead"><%-result[i].slider_description%></p>
+                        <div class="d-grid gap-2 d-md-block">
+                            <a href="<%-result[i].slider_button_link%>" class="btn btn-primary me-2"
+                                target="_blank"><%-result[i].slider_button%></a>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#shoeCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#shoeCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!-- Categories Section -->
+    <section class="section">
+        <div class="section-title">
+            <h2>Trending Products </h2>
+        </div>
+
+        <div class="categories">
+            <% for(var i=0; i<trending.length;i++){%>
+                <div class="category-card">
+                    <img src="/product/<%-trending[i].product_main_image%>" alt="Men's Shoes" width="100%" height="100%"
+                        class="category-img">
+                    <div class="category-overlay">
+                        <h3><%-trending[i].product_name%></h3>
+                        <a href="#">Shop Now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <%}%>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Shoes Style </h2>
+        </div>
+
+        <div class="categories">
+            <% for(var i=0; i<style.length;i++){%>
+                <div class="category-card">
+                    <img src="/Style/<%-style[i].style_img%>" alt="Men's Shoes" width="100%" height="80%"
+                        class="category-img">
+                    <div class="category-overlay">
+                        <h3><%-style[i].product_style_name%></h3>
+                    </div>
+                </div>
+                <%}%>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section">
+        <div class="section-title">
+            <h2>Featured Products </h2>
+        </div>
+
+        <div class="products-grid">
+            <%for(var i=0;i<discount.length;i++){%>
+                <div class="product-card">
+                    <span class="product-badge">New</span>
+                    <div class="product-img-container">
+                        <img src="/product/<%-discount[i].product_main_image%>" alt="Premium Sneakers"
+                            class="product-img">
+                        <div class="product-actions">
+                            <button class="action-btn"><i class="far fa-heart"></i></button>
+                            <button class="action-btn"><i class="fas fa-search"></i></button>
+                            <button class="action-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <!-- <span class="product-category"><%-discount[i].product_brand_name%></span> -->
+                        <h3 class="product-title"><%-discount[i].product_name%></h3>
+                        <div class="product-price">
+                            <span class="current-price"><%-discount[i].product_price%></span>
+                            <span class="old-price"><%-discount[i].product_market_price%></span>
+                            <span class="discount"><%-discount[i].apply_discount_percent%>%</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(<%-discount[i].product_rating%>)</span>
+                        </div>
+                        <a href="/details/<%-discount[i].product_id%>">
+                            <button class="add-to-cart" style="text-decoration: none;">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                        </a>
+
+                    </div>
+                </div>
+                <%}%>
+        </div>
+    </section>
+
+    <!-- Banner Section -->
+    <section class="banner">
+        <div class="banner-content">
+            <h2>Summer Sale Event</h2>
+            <p>Don't miss our biggest sale of the year! Up to 50% off on selected items.</p>
+
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+
+            <a href="#" class="btn">Shop The Sale</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+
+    <!-- Brands Section -->
+    <section class="section">
+        <div class="section-title">
+            <h2>Brands We Carry</h2>
+        </div>
+        <div class="brands ">
+            <% for(var i=0; i<brand.length;i++){%>
+                <img src="/Brand/<%-brand[i].brand_img%>" alt="Nike" class="brand-img shadow" width="220px">
+                <%}%>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Join Our Newsletter</h2>
+            <p>Subscribe to get updates on new arrivals, special offers and other discount information.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    <%-include('footer.ejs')%>

@@ -1,0 +1,57 @@
+<%-include('navbar.ejs')%>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <h2 class="mb-4 mt-3 ">Product Type</h2>
+
+    <div class="container p-4 shadow text-dark fw-bold">
+        <form action="/admin/save_type" method="post" enctype="multipart/form-data">
+            <div class="row g-5 mb-4">
+                <div class="col-md-5">
+                    <label for="brand" class="form-label">Products Type </label>
+                    <input type="text" name="type_name" id="brand" class="form-control" placeholder="Enter Shoes Type "
+                        required>
+                </div>
+                <div class="col-md-5">
+                    <label for="image" class="form-label">Product  File</label>
+                    <input type="file" name="image" id="image" class="form-control" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-primary px-3 py-1 fs-5 shadow">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br>
+    <div class="table-responsive">
+        <h1 class="text-center m-5">Shoes Type</h1>
+        <table class="table table-bordered table-hover table-striped table-sm  ">
+            <tr class="table-success fs-6 fw-bold">
+                <th class="fs-6 text-center fw-bold">Action</th>
+                <th class="fs-6 text-center fw-bold">Sr No</th>
+                <th class="fs-6 text-center fw-bold">Shoes Type</th>
+                <th class="fs-6 text-center fw-bold">Shoes Image</th>
+            </tr>
+            <% for(var i=0;i<result.length;i++){%>
+                <tr>
+                    <td class="fs-6  text-center fw-bold">
+                        <a href="/admin/edit_type/<%-result[i].product_type_id%>" class="btn btn-outline-primary btn-sm me-2 shadow-sm mt-4" title="Edit">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <a href="/admin/delete_type/<%-result[i].product_type_id%>" class="btn btn-outline-danger btn-sm shadow-sm mt-4" title="Delete">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </td>
+                    <td class="fs-6 text-center fw-bold"><%- i+1 %></td>
+                    <td class="fs-6 text-center fw-bold"><%-result[i].product_type_name%></td>
+                    <td>
+                        <img src="/Type/<%-result[i].type_img%>" width="100px" height="100px" class="rounded shadow">
+                    </td>
+                </tr>
+                <%}%>
+        </table>
+    </div>
+    <%-include('footer.ejs')%>

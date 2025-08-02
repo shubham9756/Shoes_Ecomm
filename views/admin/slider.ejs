@@ -1,0 +1,72 @@
+<%-include('navbar.ejs')%>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <h2 class="mb-4 mt-3 text-center">Shoes Slider</h2>
+    <div class="container p-4 shadow text-dark fw-bold">
+        <form action="/admin/save_slider" method="post" enctype="multipart/form-data">
+            <div class="row g-4 mb-4 ">
+                <div class="col-md-6">
+                    <label for="slider_title" class="form-label">Slider Title</label>
+                    <input type="text" name="slider_title" id="slider_title" class="form-control"
+                        placeholder="Enter Slider Title">
+                </div>
+                <div class="col-md-6">
+                    <label for="slider_image" class="form-label">Upload File</label>
+                    <input type="file" name="image" id="slider_image" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="slider_button" class="form-label">Slider Button</label>
+                    <input type="text" name="slider_button" id="slider_button" class="form-control"
+                        placeholder="Enter Slider button name">
+                </div>
+                <div class="col-md-6">
+                    <label for="slider__button_link" class="form-label">Slider Button Link</label>
+                    <input type="url" name="slider__button_link" id="slider__button_link" class="form-control"
+                        placeholder="Enter Slider button Link">
+                </div>
+                <div class="col-md-12">
+                    <label for="slider_dec" class="form-label">Slider Description</label>
+                    <textarea name="slider_dec" id="editor" class="form-control"></textarea>
+                </div>
+                <div class="col-md-10 mt-4">
+                    <button class="btn btn-primary px-4 py-2 fs-5 shadow">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <div class="table-responsive">
+        <h1 class="text-center m-5">Shoes Brand</h1>
+        <table class="table table-bordered table-hover table-striped table-sm  ">
+            <tr class="table-success fs-6 fw-bold">
+                <th class="fs-6 text-center fw-bold">Action</th>
+                <th class="fs-6 text-center fw-bold">Sr No</th>
+                <th class="fs-6 text-center fw-bold">Slider Title</th>
+                <th class="fs-6 text-center fw-bold">Slider Description</th>
+                <th class="fs-6 text-center fw-bold">Slider Image</th>
+            </tr>
+            <% for(var i=0;i<result.length;i++){%>
+                <tr>
+                    <td class="fs-6  text-center fw-bold">
+                        <a href="/admin/edit_slider/<%-result[i].slider_id%>"
+                            class="btn btn-outline-primary btn-sm me-2 shadow-sm mt-4" title="Edit">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <a href="/admin/delete_slider/<%-result[i].slider_id%>"
+                            class="btn btn-outline-danger btn-sm shadow-sm mt-4" title="Delete">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </td>
+                    <td class="fs-6 text-center fw-bold"><%- i+1 %></td>
+                    <td class="fs-6 text-center fw-bold"><%-result[i].slider_title%></td>
+                    <td class="fs-6 text-center fw-bold"><%-result[i].slider_description%></td>
+                    <td>
+                        <img src="/slider/<%-result[i].slider_image%>" width="100px" height="100px" class="rounded shadow">
+                    </td>
+                </tr>
+                <%}%>
+        </table>
+    </div>
+    <%-include('footer.ejs')%>

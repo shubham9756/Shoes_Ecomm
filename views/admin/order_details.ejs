@@ -1,0 +1,248 @@
+<%- include('navbar.ejs') %>
+
+<% for(let o of order) { %>
+<div class="container my-5">
+  <!-- Order Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold text-primary mb-0">
+    <i class="bi bi-receipt me-2"></i>Order #<%= o.order_id %>
+  </h2>
+  <div class="d-flex gap-2">
+    <% if (o.order_status == 'placed') { %>
+    <a href="/admin/dispatch_order/<%= o.order_id %>"><button class="btn btn-success">Dispatch</button></a>
+     <a href="/admin/cancelled_order/<%= o.order_id %>"><button class="btn btn-danger">Reject</button></a>
+     <% } %>
+  </div>
+</div>
+
+
+  <!-- Summary Cards -->
+  <div class="row g-4 mb-4">
+    <!-- Customer Info -->
+    <div class="col-lg-6">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-header bg-light">
+          <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Customer Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                <i class="bi bi-person-fill fs-4"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <h5 class="mb-1"><%= o.fullname %></h5>
+              <p class="mb-1"><i class="bi bi-telephone me-2"></i><%= o.mobile %></p>
+              <p class="mb-0 text-muted small">Ordered on <%= new Date(o.order_date).toLocaleString() %></p>
+            </div>
+          </div>
+          <hr>
+          <h6 class="fw-bold"><i class="bi bi-truck me-2"></i>Shipping Address</h6>
+          <address class="mb-0">
+            <%= o.address %><br>
+            <%= o.area %>, <%= o.city %><br>
+            <%= o.state %> - <%= o.pincode %>
+          </address>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-lg-6">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-header bg-light">
+          <h5 class="mb-0"><i class="bi bi-credit-card me-2"></i>Order Summary</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-6">
+              <p class="mb-1 text-muted">Payment Method</p>
+              <p class="fw-bold"><%= o.payment_method %></p>
+            </div>
+            <div class="col-6">
+              <p class="mb-1 text-muted">Payment Status</p>
+              <p class="fw-bold text-<%= o.payment_status === 'paid' ? 'success' : 'danger' %>">
+                <%= o.payment_status.toUpperCase() %>
+              </p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-6">
+              <p class="mb-1 text-muted">Transaction ID</p>
+              <p class="fw-bold"><%= o.transaction_id || 'N/A' %></p>
+            </div>
+            <div class="col-6">
+              <p class="mb-1 text-muted">Items</p>
+              <p class="fw-bold"><%= products.length %></p>
+            </div>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Total Amount</h5>
+            <h4 class="mb-0 text-success">₹<%= products.reduce((sum, p) => sum + p.product_total, 0) %></h4>
+          </div>
+        </div>
+        <% if (o.order_status === 'pending') { %>
+        <div class="card-footer bg-light d-flex justify-content-end gap-2">
+          <a href="/admin/dispatch_order/<%= o.order_id %>" class="btn btn-success px-4">
+            <i class="bi bi-check-circle me-2"></i>Dispatch
+          </a>
+          <a href="/admin/reject_order/<%= o.order_id %>" class="btn btn-outline-danger px-4">
+            <i class="bi bi-x-circle me-2"></i>Reject
+          </a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Items Table -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-light">
+      <h5 class="mb-0"><i class="bi bi-cart-check me-2"></i>Order Items</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="text-center">#</th>
+              <th>Product</th>
+              <th class="text-center">Size</th>
+              <th class="text-end">Price</th>
+              <th class="text-center">Qty</th>
+              <th class="text-end">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach((p, i) => { %>
+            <tr>
+              <td class="text-center"><%= i + 1 %></td>
+              <td>
+                <div class="d-flex flex-column">
+                  <span class="fw-semibold"><%= p.product_name %></span>
+                  <small class="text-muted">SKU: <%= p.product_sku || 'N/A' %></small>
+                </div>
+              </td>
+              <td class="text-center"><%= p.product_size %></td>
+              <td class="text-end">
+                ₹<%= p.product_price %>
+                <br>
+                <small class="text-danger text-decoration-line-through">₹<%= p.product_market_price %></small>
+                <small class="text-success">(<%= p.product_discount %>% off)</small>
+              </td>
+              <td class="text-center"><%= p.product_qty %></td>
+              <td class="text-end fw-bold">₹<%= p.product_total %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+          <tfoot class="table-light">
+            <tr>
+              <td colspan="5" class="text-end fw-bold">Subtotal</td>
+              <td class="text-end fw-bold">₹<%= products.reduce((sum, p) => sum + p.product_total, 0) %></td>
+            </tr>
+            <tr>
+              <td colspan="5" class="text-end fw-bold">Grand Total</td>
+              <td class="text-end fw-bold text-success">₹<%= products.reduce((sum, p) => sum + p.product_total, 0) %></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-light">
+      <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Order Timeline</h5>
+    </div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item <%= o.order_status !== 'pending' ? 'completed' : 'active' %>">
+          <div class="timeline-icon">
+            <i class="bi bi-cart"></i>
+          </div>
+          <div class="timeline-content">
+            <h6>Order Placed</h6>
+            <p class="text-muted small mb-0"><%= new Date(o.order_date).toLocaleString() %></p>
+          </div>
+        </div>
+        <div class="timeline-item <%= o.order_status === 'completed' ? 'completed' : (o.order_status === 'rejected' ? 'cancelled' : '') %>">
+          <div class="timeline-icon">
+            <i class="bi bi-check-circle"></i>
+          </div>
+          <div class="timeline-content">
+            <% if (o.order_status === 'completed') { %>
+              <h6>Order Dispatched</h6>
+              <p class="text-muted small mb-0">Your order has been shipped</p>
+            <% } else if (o.order_status === 'rejected') { %>
+              <h6>Order Rejected</h6>
+              <p class="text-muted small mb-0">Order was cancelled</p>
+            <% } else { %>
+              <h6>Processing</h6>
+              <p class="text-muted small mb-0">Your order is being processed</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<style>
+  /* Timeline Styles */
+  .timeline {
+    position: relative;
+    padding-left: 50px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 30px;
+  }
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+  .timeline-item.completed .timeline-icon {
+    background-color: #198754;
+    color: white;
+  }
+  .timeline-item.active .timeline-icon {
+    background-color: #0d6efd;
+    color: white;
+  }
+  .timeline-item.cancelled .timeline-icon {
+    background-color: #dc3545;
+    color: white;
+  }
+  .timeline-icon {
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+    color: #6c757d;
+  }
+  .timeline-content {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+  }
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 36px;
+    height: calc(100% - 36px);
+    width: 2px;
+    background-color: #e9ecef;
+  }
+</style>
+
+<%- include('footer.ejs') %>

@@ -1,0 +1,90 @@
+<%- include('navbar.ejs') %>
+
+<!-- Admin Banner Form -->
+ <h1>Banner Section</h1>
+<div class="container" style="font-size: 15px !important;">
+  <div class="card shadow-lg mt-5">
+    
+    <div class="card-body">
+      <form action="/admin/save_banner" method="post" enctype="multipart/form-data">
+        <div class="row g-3">
+          <!-- Banner Title -->
+          <div class="col-md-6">
+            <label for="bannerTitle" class="form-label">Banner Title</label>
+            <input type="text" class="form-control" id="bannerTitle" name="banner_title" placeholder="Enter banner title" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="bannerImage" class="form-label">Banner Image</label>
+            <input type="file" class="form-control" id="bannerImage" name="banner_image" accept="image/*">
+          </div>
+
+          <!-- Banner Button Text -->
+          <div class="col-md-6">
+            <label for="bannerButtonText" class="form-label">Banner Button Text</label>
+            <input type="text" class="form-control" id="bannerButtonText" name="banner_button_text" placeholder="Enter button text">
+          </div>
+
+          <!-- Banner Button Link -->
+          <div class="col-md-6">
+            <label for="bannerButtonLink" class="form-label">Banner Button Link</label>
+            <input type="url" class="form-control" id="bannerButtonLink" name="banner_button_link" placeholder="Enter button URL">
+          </div>
+
+
+          <!-- Banner Description -->
+          <div class="col-md-12">
+            <label for="editor" class="form-label">Banner Description</label>
+            <textarea name="banner_Dec" id="editor" class="form-control mb-2"placeholder="Enter banner description..."></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="col-12 mt-5">
+            <button type="submit" class="btn btn-primary">Save Banner</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- All Banners Table -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">All Banners</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover align-middle shadow-sm">
+      <thead class="table-success text-center">
+        <tr>
+          <th>Action</th>
+          <th>Sr No</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var i = 0; i < result.length; i++) { %>
+          <tr class="text-center">
+            <td>
+              <a href="/admin/edit_slider/<%- result[i].slider_id %>" class="btn btn-outline-primary btn-sm me-2 shadow-sm" title="Edit">
+                <i class="bi bi-pencil-fill"></i>
+              </a>
+              <a href="/admin/delete_slider/<%- result[i].slider_id %>" class="btn btn-outline-danger btn-sm shadow-sm" title="Delete">
+                <i class="bi bi-trash-fill"></i>
+              </a>
+            </td>
+            <td><%- i + 1 %></td>
+            <td><%- result[i].banner_title %></td>
+            <td><%- result[i].banner_dec %></td>
+            <td>
+              <!-- <img src="/banner/<%-result[i].banner_image%>" alt=""> -->
+              <img src="/banner/<%-result[i].banner_image%>" width="100" height="100" class="rounded shadow-sm">
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('footer.ejs') %>

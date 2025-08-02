@@ -1,0 +1,26 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_GmXyAFAK01Uo7t", // Enter the Key ID generated from the Dashboard
+    "amount": "<%-result[0].product_total * 100 %>", // Amount is in currency subunits. 
+    "currency": "INR",
+    "name": "Shubham", //your business name
+    "description": "Shoes Ecomm Project",
+    "image": "https://static.vecteezy.com/system/resources/thumbnails/030/656/394/small/3d-sneakers-by-alberto-seveso-advanced-color-scheme-free-photo.jpg",
+    "callback_url":"http://localhost:1000/payment_success/<%-result[0].order_id%>",
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "<%-result[0].fullname%>", //your customer's name
+        // "email": "",
+        "contact": "<%-result[0].mobile%>" //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "<%-result[0].address%>"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+</script>

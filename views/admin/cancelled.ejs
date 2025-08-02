@@ -1,0 +1,55 @@
+<%- include('navbar.ejs') %>
+
+<div class="container my-5">
+  <h2 class="mb-4 fw-bold text-primary"><i class="bi bi-hourglass-split me-2"></i>Pending Orders</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Mobile</th>
+          <th>Address</th>
+          <th>Total Amount</th>
+          <th>Payment</th>
+          <th>Transaction ID</th>
+          <th>Order Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (result.length > 0) { %>
+          <% for (let i = 0; i < result.length; i++) { 
+              let order = result[i]; %>
+            <tr>
+              <td><%= order.order_id %></td>
+              <td><%= order.fullname %></td>
+              <td><%= order.mobile %></td>
+              <td>
+                <small>
+                  <strong><%= order.address %></strong><br>
+                  <%= order.area %>, <%= order.city %>, <%= order.state %> - <%= order.pincode %><br>
+                  <%= order.country %>
+                </small>
+              </td>
+              <td>₹<%= order.total_amount %></td>
+              <td><%= order.payment_method %> (<%= order.payment_status %>)</td>
+              <td><%= order.transaction_id %></td>
+              <td><%= new Date(order.order_date).toLocaleString() %></td>
+              <td>
+                <a href="/admin/order_details/<%= order.order_id %>" class="btn btn-outline-primary btn-sm">View</a>
+              </td>
+            </tr>
+          <% } %>
+        <% } else { %>
+          <tr>
+            <td colspan="9" class="text-center text-muted">No pending orders found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('footer.ejs') %>
