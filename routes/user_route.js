@@ -34,8 +34,8 @@ router.get('/product_list', async function (req, res) {
         }
     }
     var mens = await exe(sql)
-    // res.send(data)
-    res.render('user/product_list.ejs', { mens })
+    res.render('user/product_list.ejs',{mens})
+    // res.send(mens)
 })
 
 router.get('/details/:id', async function (req, res) {
@@ -84,7 +84,6 @@ router.post('/verifyotp', async function (req, res) {
     if (req.session.otp == d.otp) {
         var email = req.session.email;
         var sql = `SELECT * FROM customers WHERE customer_email = '${email}'`;  // Changed to match email
-
         var customer = await exe(sql);
 
         if (customer.length > 0) {
@@ -113,7 +112,6 @@ function checkLogin(req, res, next) {
 
 router.post('/checkout', checkLogin, async function (req, res) {
     var d = req.body;
-    console.log(d);
 
     var customer_id = req.session.user_id;
     var payment_status = "pending";
@@ -165,7 +163,6 @@ router.post('/checkout', checkLogin, async function (req, res) {
     res.redirect(`/accecpt_payment/${order_id}`);
 });
 
-
 router.get('/accecpt_payment/:id', async function (req, res) {
     var id = req.params.id;
     var sql = `SELECT * FROM order_products WHERE order_id = '${id}'`
@@ -193,7 +190,6 @@ router.get('/print_invoice/:id', checkLogin, async function (req, res) {
     var order = await exe(sql) 
     var sql2 = `SELECT * FROM order_products WHERE order_id = '${id}'`
     var products = await exe(sql2)
-    console.log("products" , products, order)
     res.render('user/print_invoice.ejs', { order,products })
 })
 
