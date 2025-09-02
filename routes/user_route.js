@@ -34,8 +34,8 @@ router.get('/product_list', async function (req, res) {
         }
     }
     var mens = await exe(sql)
-    res.render('user/product_list.ejs',{mens})
-    // res.send(mens)
+    var packet = {"mens":mens}
+    res.render('user/product_list.ejs',packet)
 })
 
 router.get('/details/:id', async function (req, res) {
